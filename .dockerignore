@@ -1,0 +1,25 @@
+# build/
+# .gradle/
+# *.log
+# *.iml
+# *.idea/
+# Ignore Gradle wrapper
+
+.gradle/
+build/
+out/
+!gradlew
+!gradlew.bat
+
+# Ignore IDE project files
+*.idea/
+*.vscode/
+*.iml
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore logs and temporary files
+*.log
+*.tmp

@@ -1,0 +1,30 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+    - docker buildx create --use
+  script:
+    - echo "Build images..."
+    - docker buildx build --platform linux/amd64 -t $DOCKERHUB_USERNAME/discovery-service:1.0 --push .
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh
+    - mkdir -p ~/.ssh
+    - echo "$EC2_SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+  script:
+    - ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "cd /home/ubuntu/microservice && sudo docker compose pull && sudo docker compose down && sudo docker compose up --build -d"
+  only:
+    - main

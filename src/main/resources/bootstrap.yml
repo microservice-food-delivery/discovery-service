@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      name: discovery-service
+#      uri: http://config-server:9002
+      uri: http://localhost:9002
