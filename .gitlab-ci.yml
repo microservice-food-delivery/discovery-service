@@ -25,6 +25,6 @@ deploy:
     - echo "$EC2_SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
   script:
-    - ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "cd /home/ubuntu/microservice && sudo docker compose pull && sudo docker compose down && sudo docker compose up --build -d"
+    - ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "cd /home/ubuntu/microservice && sudo docker compose pull && sudo docker compose up -d"
   only:
     - main
